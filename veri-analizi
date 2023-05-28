@@ -1,27 +1,45 @@
-getwd() 
-setwd("C:/Users/90543/Desktop/r sunum") 
-veri <- read.csv ("2023veri.csv" , header = T , sep = ",")
-head(veri)
-summary(veri)
-str(veri)
-ortalama <- mean(veri$pop2023)
+#VERİYİ R YE AKTARMA
+getwd() # çalışma dizinimizin nerde olduğuna bakıyoruz.
+setwd("C:/Users/90543/Desktop/r sunum") #çalışma dizinimizi verimizin olduğu dosyaya alıyoruz.
+veri <- read.csv ("2023veri.csv" , header = T , sep = ",")#veri dosyamızı data isminde bir nesneye atıyoruz.
+#buradaki veri, veriyi aktardığımız nesne oluyor. tırnak işareti arasındaki 2023veri, veri klasörümüz oluyor. header'ı true yapma nedenimiz veri setindeki ilk satırı değişkenlerin isimleri olarak almasını sağlamak. 
+# artık environment sekmesinden verimize ulaşabiliriz.
+head(veri)  # Veri setinin ilk birkaç satırını görüntüler
+summary(veri)  # Veri setinin istatistiksel özetini sunar
+str(veri)  # Veri setinin yapısını gösterir (değişkenlerin türleri, uzunlukları vb.)
+ortalama <- mean(veri$pop2023) #verideki pop2023 verilerinin ortalama değerini bulur
 ortalama
-plot(veri$pop2050, veri$pop1980, col = "red")
+plot(veri$pop2023, veri$pop1980)   
+plot(veri$pop2050, veri$pop1980, col = "red") #pop2022 verisini kırmızı hale getirir.
+# pop1980 değişkeni 50,000'in altında olan kayıtların country verilerini yazdırma
 alt_degerler <- veri$country[veri$pop1980 < 50000]
-print(alt_degerler)     
+print(alt_degerler)
+# pop2050 değişkeni 50.000.000'un üstünde olan kayıtların country verilerini yazdırma
 ust_degerler <- veri$country[veri$pop2050 > 50000000]
 print(ust_degerler)
+
+# pop2010 verisinin maksimum değerini bulma
 max_deger <- max(veri$pop2010)
-country <- veri$country[veri$pop2010 == min_deger]
+
+# Maksimum değere sahip olan country verisini bulma
+country <- veri$country[veri$pop2010 == max_deger]
+
+# Country verisini ekrana yazdırma
 print(country)
+
+# pop2050 verisinin minimum değerini bulma
 min_deger <- min(veri$pop2050)
 country <- veri$country[veri$pop2050 == min_deger]
 print(country)
+
+
+# 2023 yılı Metrekare başına nüfusu hesaplama
 nufus_metrekare <- veri$pop2023 / veri$landAreaKm
 
-
+# Yeni bir veri çerçevesi oluşturma
 nufus_metrekare_df <- data.frame(nufus_metrekare)
 
+# Verileri birleştirme
 veri <- cbind(veri, nufus_metrekare_df)
 
 # Yeni bir veri çerçevesi oluşturma ve içerisine 2023 nüfus verisini, yüzölçümünü , ülke ismini ve metrekare başına nüfus sayısını yazma.
@@ -29,7 +47,15 @@ nufus_metrekare_df <- data.frame(pop2023 = veri$pop2023, landAreaKm = veri$landA
 
 # nufus_metrekare_df verisini görüntüleme
 print(nufus_metrekare_df)
+
+# cca2 (Ülkenin ISO 3166-1 alpha-2 kodu) ve cca3 (Ülkenin ISO 3166-1 alpha-3 kodu) sütunlarını silme
 veri <- veri[, !(names(veri) %in% c("cca2", "cca3"))]
+
+# Güncellenmiş veri setini görüntüleme
+print(veri)
+
+# rank Değeri 10 olan verinin country değerini bulma
 country_10 <- veri$country[veri$rank == 10]
 
+# Sonucu yazdırma
 print(country_10)
