@@ -1,0 +1,35 @@
+getwd() 
+setwd("C:/Users/90543/Desktop/r sunum") 
+veri <- read.csv ("2023veri.csv" , header = T , sep = ",")
+head(veri)
+summary(veri)
+str(veri)
+ortalama <- mean(veri$pop2023)
+ortalama
+plot(veri$pop2050, veri$pop1980, col = "red")
+alt_degerler <- veri$country[veri$pop1980 < 50000]
+print(alt_degerler)     
+ust_degerler <- veri$country[veri$pop2050 > 50000000]
+print(ust_degerler)
+max_deger <- max(veri$pop2010)
+country <- veri$country[veri$pop2010 == min_deger]
+print(country)
+min_deger <- min(veri$pop2050)
+country <- veri$country[veri$pop2050 == min_deger]
+print(country)
+nufus_metrekare <- veri$pop2023 / veri$landAreaKm
+
+
+nufus_metrekare_df <- data.frame(nufus_metrekare)
+
+veri <- cbind(veri, nufus_metrekare_df)
+
+# Yeni bir veri çerçevesi oluşturma ve içerisine 2023 nüfus verisini, yüzölçümünü , ülke ismini ve metrekare başına nüfus sayısını yazma.
+nufus_metrekare_df <- data.frame(pop2023 = veri$pop2023, landAreaKm = veri$landAreaKm, country = veri$country, nufus_metrekare)
+
+# nufus_metrekare_df verisini görüntüleme
+print(nufus_metrekare_df)
+veri <- veri[, !(names(veri) %in% c("cca2", "cca3"))]
+country_10 <- veri$country[veri$rank == 10]
+
+print(country_10)
